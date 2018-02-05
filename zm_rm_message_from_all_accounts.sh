@@ -1,8 +1,9 @@
 #!/bin/bash
-# rm_message.sh user@domain.com subject
+# Removes message from all Zimbra accounts
+#
+# zm_rm_message.sh user@domain.com subject
 # or
-# rm_message.sh user@domain.com
-
+# zm_rm_message.sh user@domain.com
 
 if [ -z "$2" ]; then
 addr=$1
