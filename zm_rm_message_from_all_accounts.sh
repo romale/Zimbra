@@ -15,10 +15,11 @@ for acct in `zmprov -l gaa | grep -E -v '(^admin@|^spam\..*@|^ham\..*@|^virus-qu
     echo "Searching $acct"
     for msg in `/opt/zimbra/bin/zmmailbox -z -m "$acct" s -l 999 -t message "from:$addr"|awk '{ if (NR!=1) {print}}' | grep -v -e Id -e "-" -e "^$" | awk '{ print $2 }'`
     do
-        echo "Moving "$msg" from "$acct" to Trash" | tee >> $LOG_FILE
+        echo "Delete "$msg" from "$acct"" | tee >> $LOG_FILE
         let COUNTER+=1
         echo "Total found: $COUNTER"
-        /opt/zimbra/bin/zmmailbox -z -m $acct mm $msg /Trash
+        # Use deleteMessage(dm) instead moveMessage(mm), otherwise POP3 users will see moved message
+        /opt/zimbra/bin/zmmailbox -z -m $acct deleteMessage $msg
     done
 done
 else
@@ -28,10 +29,11 @@ for acct in `zmprov -l gaa | grep -E -v '(^admin@|^spam\..*@|^ham\..*@|^virus-qu
     echo "Searching $acct  for Subject:  $subject"
     for msg in `/opt/zimbra/bin/zmmailbox -z -m "$acct" s -l 999 -t message "from:$addr subject:$subject"|awk '{ if (NR!=1) {print}}' | grep -v -e Id -e "-" -e "^$" | awk '{ print $2 }'`
     do
-        echo "Moving "$msg" from "$acct" to Trash" | tee >> $LOG_FILE
+        echo "Delete "$msg" from "$acct"" | tee >> $LOG_FILE
         let COUNTER+=1
         echo "Total found: $COUNTER"
-        /opt/zimbra/bin/zmmailbox -z -m $acct mm $msg /Trash
+        # Use deleteMessage(dm) instead moveMessage(mm), otherwise POP3 user will see moved message
+        /opt/zimbra/bin/zmmailbox -z -m $acct deleteMessage $msg /Trash
     done
 done
 fi
