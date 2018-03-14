@@ -32,8 +32,8 @@ for acct in `zmprov -l gaa | grep -E -v '(^admin@|^spam\..*@|^ham\..*@|^virus-qu
         echo "Delete "$msg" from "$acct"" | tee >> $LOG_FILE
         let COUNTER+=1
         echo "Total found: $COUNTER"
-        # Use deleteMessage(dm) instead moveMessage(mm), otherwise POP3 user will see moved message
-        /opt/zimbra/bin/zmmailbox -z -m $acct deleteMessage $msg /Trash
+        # Use deleteMessage(dm) instead moveMessage(mm), otherwise POP3 users will see moved message
+        /opt/zimbra/bin/zmmailbox -z -m $acct deleteMessage $msg
     done
 done
 fi
